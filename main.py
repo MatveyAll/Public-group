@@ -68,12 +68,12 @@ def create_post():
         # Проверка наличия пользователя в базе данных
         df = pd.read_sql_table('posts', engine)
         if new_post.title in df['title'].values:
-            return 'Вы успешно вошли!'
+            return 'Запись с таким названием уже существует'
         with engine.connect() as connection:
             connection.execute(
                 sqlalchemy.text(f"INSERT INTO posts (title, user_name, text) VALUES ('{new_post.title}', '{new_post.user_name}', '{new_post.text}')"))
             connection.commit()
-        return 'Never'
+        return 'Запись создана'
 
     return render_template('post.html')
 
