@@ -4,7 +4,7 @@ import pandas as pd
 import sqlalchemy
 
 # подключение к базе
-engine = sqlalchemy.create_engine('sqlite:///flask-database')
+engine = sqlalchemy.create_engine('sqlite:///flask-database.db')
 app = Flask(__name__)
 
 
@@ -13,6 +13,13 @@ class User:
         self.login = login
         self.password = password
         self.description = description
+
+
+class Post:
+    def __init__(self, title, user_name, text):
+        self.title = title
+        self.user_name = user_name
+        self.text = text
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -29,7 +36,7 @@ def register():
         # добавление пользователя в базу
         with engine.connect() as connection:
             connection.execute(
-                sqlalchemy.text(f"INSERT INTO users (login, password, description) VALUES ('{new_user.login}', '{new_user.password}', '{new_user.description}')"))
+                sqlalchemy.text(f"INSERT INTO users (login, password, description, list_posts) VALUES ('{new_user.login}', '{new_user.password}', '{new_user.description}', '')"))
             connection.commit()
 
         return 'Вы успешно зарегистрированы!'
@@ -51,6 +58,25 @@ def login():
             return 'Неверный логин или пароль.'
 
     return render_template('login.html')
+
+
+@app.route('/create_post', methods=['GET', 'POST'])
+def create_post():
+    if request.method == 'POST':
+        new_post = Post(request.form['title'], 1, request.form['text'])
+
+        # Проверка наличия пользователя в базе данных
+        df = pd.read_sql_table('posts', engine)
+        if new_post.title in df['title'].values:
+            return 'Вы успешно вошли!'
+        with engine.connect() as connection:
+            connection.execute(
+                sqlalchemy.text(f"INSERT INTO posts (title, user_name, text) VALUES ('{new_post.title}', '{new_post.user_name}', '{new_post.text}')"))
+            connection.commit()
+        return 'Never'
+
+    return render_template('post.html')
+
 
 
 if __name__ == '__main__':
