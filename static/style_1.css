@@ -1,0 +1,31 @@
+/* Стили для текстовых полей ввода */
+input[type="text"],
+textarea {
+    padding: 10px;
+    border: 2px solid #add8e6; /* Цвет границы */
+    border-radius: 10px; /* Закругление углов */
+    background-color: #f0f8ff; /* Цвет фона */
+    font-size: 16px;
+    width: 30%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Стили для кнопок */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #add8e6; /* Цвет кнопки */
+    color: #fff; /* Цвет текста */
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #87ceeb; /* Измененный цвет кнопки при наведении */
+}
+
+h1 {
+    color: blue; /* Цвет текста */
+}
