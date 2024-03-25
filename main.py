@@ -16,10 +16,17 @@ class User:
 
 
 class Post:
-    def __init__(self, title, user_name, text):
+    def __init__(self, title, type, user_name, text):
         self.title = title
+        self.type = type
         self.user_name = user_name
         self.text = text
+
+
+@app.route('/')
+@app.route('/main')
+def index():
+    return 'Приветствую вас на нашем сайте!;)'
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -63,7 +70,7 @@ def login():
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
     if request.method == 'POST':
-        new_post = Post(request.form['title'], 1, request.form['text'])
+        new_post = Post(request.form['title'], request.form['class'], 1, request.form['text'])
 
         # Проверка наличия пользователя в базе данных
         df = pd.read_sql_table('posts', engine)
@@ -71,7 +78,7 @@ def create_post():
             return 'Запись с таким названием уже существует'
         with engine.connect() as connection:
             connection.execute(
-                sqlalchemy.text(f"INSERT INTO posts (title, user_name, text) VALUES ('{new_post.title}', '{new_post.user_name}', '{new_post.text}')"))
+                sqlalchemy.text(f"INSERT INTO posts (title, user_name, type, text) VALUES ('{new_post.title}', '{new_post.user_name}', '{new_post.type}', '{new_post.text}')"))
             connection.commit()
         return 'Запись создана'
 
@@ -81,3 +88,4 @@ def create_post():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    user_id = 1
