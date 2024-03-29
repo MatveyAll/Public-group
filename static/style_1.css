@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* Цвет фона страницы */
+}
+
+h1 {
+    color: blue; /* Цвет заголовка */
+}
+
+table {
+    width: 30%; /* Ширина таблицы */
+    margin: 20px auto; /* Выравнивание по центру */
+}
+
+input[name="title"] {
+    padding: 10px;
+    border: 2px solid #add8e6; /* Синяя рамка */
+    border-radius: 10px; /* Закругленные углы */
+    background-color: #f0f8ff; /* Белый цвет фона */
+    font-size: 16px;
+    box-sizing: border-box;
+    width: calc(30% - 24px); /* Ширина 100% минус отступы */
+    margin-bottom: 15px; /* Отступ снизу */
+}
+
+input[type="text"],
+textarea,
+select {
+    padding: 10px;
+    border: 2px solid #add8e6; /* Синяя рамка */
+    border-radius: 10px; /* Закругленные углы */
+    background-color: #f0f8ff; /* Белый цвет фона */
+    font-size: 16px;
+    box-sizing: border-box;
+    width: 45%; /* Ширина 100% */
+    margin-bottom: 15px; /* Отступ снизу */
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #add8e6; /* Цвет кнопки */
+    color: #fff; /* Цвет текста на кнопке */
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #87ceeb; /* Цвет кнопки при наведении */
+}

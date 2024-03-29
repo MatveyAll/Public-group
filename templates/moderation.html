@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moderation Page</title>
+    <link rel="stylesheet" href="/static/moderation.css">
+</head>
+<body>
+    <h1>Страница модерации</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>User Name</th>
+                <th>Type</th>
+                <th>Text</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <form action="/moderation" method="POST">
+                    <input type="hidden" name="approve_post" value="{{ post.id }}">
+                    <input type="hidden" name="post_id" value="{{ post.post_id }}">
+                    <td><input type="text" name="title" value="{{ post.title }}"></td>
+                    <td><input type="text" name="user_name" value="{{ post.user_name }}"></td>
+                    <td><input type="text" name="type" value="{{ post.type }}"></td>
+                    <td><input type="text" name="text" value="{{ post.text }}"></td>
+                    <td>
+                        <button type="submit">Approve</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

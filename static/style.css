@@ -1,4 +1,4 @@
-/* Стили для текстовых полей ввода */
+﻿/* Стили для текстовых полей ввода */
 input[type="text"],
 input[type="password"],
 textarea {
@@ -29,4 +29,14 @@ button:hover {
 
 h1 {
     color: blue; /* Цвет текста */
+}
+form-group {
+
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #add8e6; /* Цвет кнопки */
+    color: #fff; /* Цвет текста */
+    font-size: 16px;
+    cursor: pointer;
 }
