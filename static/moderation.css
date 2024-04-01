@@ -1,0 +1,38 @@
+﻿table {
+    width: 50%; /* Ширина таблицы */
+    margin: auto; /* Центрирование таблицы */
+    border-collapse: collapse; /* Слияние границ ячеек */
+}
+
+th, td {
+    padding: 10px; /* Внутренний отступ ячеек */
+    border: 1px solid black; /* Границы ячеек */
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+th {
+    background-color: lightblue; /* Цвет фона заголовков */
+}
+
+td input[type="text"] {
+    width: 100%; /* Расширение текстовых полей по всей ширине ячейки */
+    box-sizing: border-box; /* Учет внутренних отступов и границ в общей ширине элемента */
+    padding: 5px; /* Внутренний отступ текстовых полей */
+    border: 1px solid lightblue; /* Границы текстовых полей */
+    border-radius: 5px; /* Закругление углов текстовых полей */
+}
+
+button[type="submit"] {
+    padding: 5px 10px; /* Внутренний отступ кнопки */
+    background-color: lightblue; /* Цвет фона кнопки */
+    border: none; /* Удаление границы кнопки */
+    border-radius: 5px; /* Закругление углов кнопки */
+    cursor: pointer; /* Изменение курсора при наведении на кнопку */
+}
+
+button[type="submit"]:hover {
+    background-color: skyblue; /* Изменение цвета фона кнопки при наведении */
+}
+.scroll {
+  overflow-y: scroll; /* Включаем вертикальную прокрутку */
+}

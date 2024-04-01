@@ -1,31 +1,53 @@
-/* Стили для текстовых полей ввода */
-input[type="text"],
-textarea {
-    padding: 10px;
-    border: 2px solid #add8e6; /* Цвет границы */
-    border-radius: 10px; /* Закругление углов */
-    background-color: #f0f8ff; /* Цвет фона */
-    font-size: 16px;
-    width: 30%;
-    box-sizing: border-box;
-    margin-bottom: 15px;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* Р¦РІРµС‚ С„РѕРЅР° СЃС‚СЂР°РЅРёС†С‹ */
 }
 
-/* Стили для кнопок */
+h1 {
+    color: blue; /* Р¦РІРµС‚ Р·Р°РіРѕР»РѕРІРєР° */
+}
+
+table {
+    width: 30%; /* РЁРёСЂРёРЅР° С‚Р°Р±Р»РёС†С‹ */
+    margin: 20px auto; /* Р’С‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ */
+}
+
+input[name="title"] {
+    padding: 10px;
+    border: 2px solid #add8e6; /* РЎРёРЅСЏСЏ СЂР°РјРєР° */
+    border-radius: 10px; /* Р—Р°РєСЂСѓРіР»РµРЅРЅС‹Рµ СѓРіР»С‹ */
+    background-color: #f0f8ff; /* Р‘РµР»С‹Р№ С†РІРµС‚ С„РѕРЅР° */
+    font-size: 16px;
+    box-sizing: border-box;
+    width: calc(30% - 24px); /* РЁРёСЂРёРЅР° 100% РјРёРЅСѓСЃ РѕС‚СЃС‚СѓРїС‹ */
+    margin-bottom: 15px; /* РћС‚СЃС‚СѓРї СЃРЅРёР·Сѓ */
+}
+
+input[type="text"],
+textarea,
+select {
+    padding: 10px;
+    border: 2px solid #add8e6; /* РЎРёРЅСЏСЏ СЂР°РјРєР° */
+    border-radius: 10px; /* Р—Р°РєСЂСѓРіР»РµРЅРЅС‹Рµ СѓРіР»С‹ */
+    background-color: #f0f8ff; /* Р‘РµР»С‹Р№ С†РІРµС‚ С„РѕРЅР° */
+    font-size: 16px;
+    box-sizing: border-box;
+    width: 45%; /* РЁРёСЂРёРЅР° 100% */
+    margin-bottom: 15px; /* РћС‚СЃС‚СѓРї СЃРЅРёР·Сѓ */
+}
+
 button {
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-color: #add8e6; /* Цвет кнопки */
-    color: #fff; /* Цвет текста */
+    background-color: #add8e6; /* Р¦РІРµС‚ РєРЅРѕРїРєРё */
+    color: #fff; /* Р¦РІРµС‚ С‚РµРєСЃС‚Р° РЅР° РєРЅРѕРїРєРµ */
     font-size: 16px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #87ceeb; /* Измененный цвет кнопки при наведении */
-}
-
-h1 {
-    color: blue; /* Цвет текста */
+    background-color: #87ceeb; /* Р¦РІРµС‚ РєРЅРѕРїРєРё РїСЂРё РЅР°РІРµРґРµРЅРёРё */
 }

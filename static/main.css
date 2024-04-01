@@ -1,0 +1,15 @@
+}
+.scroll {
+  overflow-y: scroll; /* Включаем вертикальную прокрутку */
+}
+button[type="submit"] {
+    padding: 5px 10px; /* Внутренний отступ кнопки */
+    background-color: lightblue; /* Цвет фона кнопки */
+    border: none; /* Удаление границы кнопки */
+    border-radius: 5px; /* Закругление углов кнопки */
+    cursor: pointer; /* Изменение курсора при наведении на кнопку */
+}
+
+button[type="submit"]:hover {
+    background-color: skyblue; /* Изменение цвета фона кнопки при наведении */
+}
