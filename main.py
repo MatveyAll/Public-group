@@ -27,7 +27,14 @@ class Post:
 @app.route('/')
 @app.route('/main', methods=['GET', 'POST'])
 def main():
-    return render_template('main.html')
+    df = pd.read_sql_table('posts', engine)
+    posts = df.to_dict('records')
+    type = ''
+    if request.method == 'POST':
+        type = request.form['class']
+        if type != '':
+            posts = list(filter(lambda x: x['type'] == type, posts))
+    return render_template('main.html', posts=posts, type=type)
 
 
 @app.route('/moderation', methods=['GET', 'POST'])
@@ -57,7 +64,6 @@ def moderation():
                 )
                 connection.commit()
                 #Обновление страницы чтобы одобренная заметка исчезла
-            return redirect(url_for('moderation'), 301)
 
     return render_template('moderation.html', posts=posts)
 
