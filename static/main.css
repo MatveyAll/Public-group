@@ -1,15 +1,10 @@
-}
 .scroll {
   overflow-y: scroll; /* Включаем вертикальную прокрутку */
 }
-button[type="submit"] {
-    padding: 5px 10px; /* Внутренний отступ кнопки */
-    background-color: lightblue; /* Цвет фона кнопки */
-    border: none; /* Удаление границы кнопки */
-    border-radius: 5px; /* Закругление углов кнопки */
-    cursor: pointer; /* Изменение курсора при наведении на кнопку */
-}
-
-button[type="submit"]:hover {
-    background-color: skyblue; /* Изменение цвета фона кнопки при наведении */
+form {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    color:5b92e5; /* Цвет текста */
+    font-size: 16px;
 }

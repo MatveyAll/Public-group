@@ -9,6 +9,27 @@
 <body>
     <div class="scroll">
         <h1>All posts</h1>
+        <form action="/main" method="POST">
+           <div class="form-group">
+	        <select class="form-control" id="classSelect" name="class">
+                    <option></option>
+                    <option>Животные</option>
+                    <option>Личные переживания</option>
+                    <option>Спорт</option>
+                    <option>Искусство</option>
+                    <option>Семейные разборки</option>
+                </select>
+            </div>
+            <button type="submit">Find</button>
+        </form>
+        {% for post in posts %}
+            <form action="/main">
+                <h3>{{ post.title }}</h3>
+                <h4>{{ post.user_name }}</h4>
+                <h4>{{ post.type }}</h4>
+                <h5>{{ post.text }}</h5>
+            </form>
+        {% endfor %}
     </div>
 </body>
 </html>
