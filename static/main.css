@@ -1,10 +1,61 @@
 .scroll {
   overflow-y: scroll; /* ¬ключаем вертикальную прокрутку */
 }
-form {
+form-group {
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    color:5b92e5; /* ÷вет текста */
-    font-size: 16px;
+    background-color: #B0E0E6;
+    cursor: pointer;
+    font-size: 20px;
+}
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #add8e6; /* ÷вет кнопки */
+    color: #fff; /* ÷вет текста */
+    font-size: 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #87ceeb; /* »змененный цвет кнопки при наведении */
+}
+
+h1 {
+    color: blue; /* ÷вет текста */
+}
+a {
+    font-weight: bold;
+    text-align: left;
+    text-shadow: 2px 2px 0 #77F7DE
+}
+b {
+    font-style: italic;
+    text-transform: capitalise;
+    text-align:right;
+    display: block;
+    text-shadow: 2px 2px 0 #77F7DE
+}
+c {
+    text-align: left;
+    display: block;
+    text-shadow: 2px 2px 0 #77F7DE
+}
+d {
+    text-align: left;
+    word-wrap: break-word;
+    text-shadow: 2px 2px 0 #77F7DE
+}
+form.post_form {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    max-width: 450px;
+    background-color: #ADD8E6;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 24px;
 }

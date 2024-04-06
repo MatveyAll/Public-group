@@ -11,23 +11,20 @@
         <h1>All posts</h1>
         <form action="/main" method="POST">
            <div class="form-group">
+                <label for="classSelect">Category</label>
 	        <select class="form-control" id="classSelect" name="class">
                     <option></option>
-                    <option>Животные</option>
-                    <option>Личные переживания</option>
-                    <option>Спорт</option>
-                    <option>Искусство</option>
-                    <option>Семейные разборки</option>
+                    <option>Pets</option>
                 </select>
             </div>
             <button type="submit">Find</button>
         </form>
         {% for post in posts %}
-            <form action="/main">
-                <h3>{{ post.title }}</h3>
-                <h4>{{ post.user_name }}</h4>
-                <h4>{{ post.type }}</h4>
-                <h5>{{ post.text }}</h5>
+            <form class="post_form">
+                <a>{{ post.title }}</a>
+                <b>{{ post.user_name }}</b>
+                <c>{{ post.type }}</c>
+                <d>{{ post.text }}</d>
             </form>
         {% endfor %}
     </div>
