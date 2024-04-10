@@ -1,5 +1,6 @@
+import base64
+
 from flask import Flask, url_for, redirect, render_template, request, session
-from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 import sqlalchemy
 
@@ -17,29 +18,38 @@ class User:
 
 
 class Post:
-    def __init__(self, title, type, user_name, text):
+    def __init__(self, title, type, user_name, text, audio, photo):
         self.title = title
         self.type = type
         self.user_name = user_name
         self.text = text
+        self.audio = audio
+        self.photo = photo
 
 
 @app.route('/')
-@app.route('/main')
+@app.route('/main', methods=['GET', 'POST'])
 def main():
-    return 'Приветствую вас на нашем сайте!;)'
+    if not (session['username'] and session['password']):  # проверка был ли вход у пользователя
+        return redirect(url_for('login'), 301)
+    df = pd.read_sql_table('posts', engine)
+    posts = df.to_dict('records')
+    type = ''
+    if request.method == 'POST':
+        type = request.form['class']
+        if type != '':
+            posts = list(filter(lambda x: x['type'] == type, posts))
+    return render_template('main.html', posts=posts, type=type)
 
 
 @app.route('/moderation', methods=['GET', 'POST'])
 def moderation():
     if session['username'] != 'admin' and session['password'] != '54321':
         return 'Вы не являетесь админом и не можете модерировать записи'
-    # Получаем все записи, требующие модерации, из таблицы posts_proverka
     df = pd.read_sql_table('posts_proverka', engine)
     posts = df.to_dict('records')
 
     if request.method == 'POST':
-        # Проверяем, было ли отправлено одобрение какой-либо записи
         if 'approve_post' in request.form:
             title = request.form['title']
             user_name = request.form['user_name']
@@ -47,19 +57,27 @@ def moderation():
             text = request.form['text']
             post_id = request.form['post_id']
 
-            # Перемещаем запись из таблицы posts_proverka в posts
             with engine.connect() as connection:
-                connection.execute(
-                    sqlalchemy.text(
-                        "INSERT INTO posts (post_id, title, user_name, type, text) VALUES (:post_id, :title, :user_name, :type, :text)"),
-                    {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text}
-                )
-                # Удаляем запись из таблицы posts_proverka
+                if len(request.form) == 7:
+                    connection.execute(
+                        sqlalchemy.text(
+                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                         "audio": request.form['audio'], "photo": request.form['photo']}
+                    )
+                else:
+                    connection.execute(
+                        sqlalchemy.text(
+                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                         "audio": "", "photo": ""}
+                    )
                 connection.execute(
                     sqlalchemy.text("DELETE FROM posts_proverka WHERE post_id = :post_id"),
                     {"post_id": post_id}
                 )
                 connection.commit()
+                return redirect(url_for('moderation'), 301)
 
     return render_template('moderation.html', posts=posts)
 
@@ -104,13 +122,23 @@ def login():
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
     if request.method == 'POST':
-        new_post = Post(request.form['title'], request.form['class'], session['username'], request.form['text'])
+        new_post = Post(
+            request.form['title'],
+            request.form['class'],
+            session['username'],
+            request.form['text'],
+            base64.b64encode(request.files['audio'].read()).decode('utf-8'),
+            base64.b64encode(request.files['photo'].read()).decode('utf-8')
+        )
         df = pd.read_sql_table('posts', engine)
         if new_post.title in df['title'].values:
             return 'Запись с таким названием уже существует'
         with engine.connect() as connection:
             connection.execute(
-                sqlalchemy.text(f"INSERT INTO posts_proverka (post_id,title, user_name, type, text) VALUES (NUll, '{new_post.title}', '{new_post.user_name}', '{new_post.type}', '{new_post.text}')"))
+                sqlalchemy.text(
+                    f"INSERT INTO posts_proverka (post_id,title, user_name, type, text, audio, photo) VALUES (NUll, '{new_post.title}', '{new_post.user_name}', '{new_post.type}', '{new_post.text}', :audio, :photo)"),
+                {"audio": new_post.audio, "photo": new_post.photo}
+            )
             connection.commit()
         return 'Запись создана'
 
