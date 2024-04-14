@@ -36,3 +36,12 @@ button[type="submit"]:hover {
 .scroll {
   overflow-y: scroll; /* Включаем вертикальную прокрутку */
 }
+
+.post_container {
+    border: 1px solid #ccc; /* Устанавливаем границу для прямоугольника */
+    border-radius: 10px; /* Задаем радиус скругления углов */
+    padding: 10px; /* Добавляем внутренний отступ */
+    margin-bottom: 20px; /* Добавляем нижний отступ между записями */
+    background-color: #e0f2f1;
+    isplay: inline-block; /* Размещаем прямоугольник в строку и подстраиваем ширину под содержимое */
+}

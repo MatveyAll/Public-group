@@ -28,7 +28,8 @@ button:hover {
 }
 
 h1 {
-    color: blue; /* Цвет текста */
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #0d4a3f;
 }
 form-group {
 
