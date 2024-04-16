@@ -9,20 +9,25 @@
 <body>
     <h1>Создание записи</h1>
     <form action="/create_post" method="POST" enctype="multipart/form-data">
-        <input type="title" name="title" placeholder="Название"><br>
-        <textarea name="text" placeholder="Текст"></textarea><br>
-        <div class="form-group">
-            <select class="form-control" id="classSelect" name="class">
-                <option>Животные</option>
-                <option>Личные переживания</option>
-                <option>Спорт</option>
-                <option>Искусство</option>
-                <option>Семейные разборки</option>
-            </select>
+        <div class="post_container">
+            <input type="title" name="title" placeholder="Название"><br>
+            <textarea name="text" placeholder="Текст"></textarea><br>
+            <div class="form-group">
+                <select class="form-control" id="classSelect" name="class">
+                    <option>Животные</option>
+                    <option>Личные переживания</option>
+                    <option>Спорт</option>
+                    <option>Искусство</option>
+                    <option>Семейные разборки</option>
+                </select>
+            </div>
+            <input type="file" name="audio" accept="audio/*"><br>
+            <input type="file" name="photo" accept="image/*"><br>
+            <button type="submit">Создать</button>
         </div>
-        <input type="file" name="audio" accept="audio/*"><br>
-        <input type="file" name="photo" accept="image/*"><br>
-        <button type="submit">Создать</button>
+    </form>
+    <form action="/main">
+        <button type="submit">Return</button>
     </form>
 </body>
 </html>

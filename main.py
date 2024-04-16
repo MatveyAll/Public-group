@@ -39,7 +39,7 @@ def main():
         type = request.form['class']
         if type != '':
             posts = list(filter(lambda x: x['type'] == type, posts))
-    return render_template('main.html', posts=posts, type=type)
+    return render_template('main.html', posts=posts, type=type, username=session['username'])
 
 
 @app.route('/moderation', methods=['GET', 'POST'])
