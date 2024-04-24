@@ -1,0 +1,15 @@
+h1 {
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #0d4a3f;
+}
+br {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #add8e6; /* Цвет кнопки */
+    color: #fff; /* Цвет текста */
+    font-size: 20px;
+    cursor: pointer;
+}

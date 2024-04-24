@@ -1,5 +1,5 @@
 .scroll {
-  overflow-y: scroll; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+  overflow-y: scroll; /* Включаем вертикальную прокрутку */
 }
 form-group {
     padding: 10px 20px;
@@ -7,32 +7,38 @@ form-group {
     border-radius: 10px;
     background-color: #B0E0E6;
     cursor: pointer;
-    font-size: 20px;
+    font-family: 'Roboto', Arial, sans-serif;
 }
+
 button {
-    padding: 10px 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 10px 15px;
     border: none;
     border-radius: 10px;
-    background-color: #add8e6; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
-    color: #fff; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+    background-color: #64e4ed; /* Цвет кнопки */
+    color: #fff; /* Цвет текста */
     font-size: 20px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #87ceeb; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+    background-color: #87ceeb; /* Измененный цвет кнопки при наведении */
 }
 
 h1 {
-    color: blue; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #0d4a3f;
 }
 a {
+    font-size: 20px;
     font-weight: bold;
     text-align: left;
     text-shadow: 2px 2px 0 #77F7DE
 }
 b {
     font-style: italic;
+    font-size: 20px;
     text-transform: capitalise;
     text-align:right;
     display: block;
@@ -40,20 +46,28 @@ b {
 }
 c {
     text-align: left;
+    font-size: 20px;
     display: block;
     text-shadow: 2px 2px 0 #77F7DE
 }
 d {
     text-align: left;
+    font-size: 20px;
     word-wrap: break-word;
     text-shadow: 2px 2px 0 #77F7DE
 }
-
 .post_container {
-    border: 1px solid #ccc; /* РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РіСЂР°РЅРёС†Сѓ РґР»СЏ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР° */
-    border-radius: 10px; /* Р—Р°РґР°РµРј СЂР°РґРёСѓСЃ СЃРєСЂСѓРіР»РµРЅРёСЏ СѓРіР»РѕРІ */
-    padding: 10px; /* Р”РѕР±Р°РІР»СЏРµРј РІРЅСѓС‚СЂРµРЅРЅРёР№ РѕС‚СЃС‚СѓРї */
-    margin-bottom: 20px; /* Р”РѕР±Р°РІР»СЏРµРј РЅРёР¶РЅРёР№ РѕС‚СЃС‚СѓРї РјРµР¶РґСѓ Р·Р°РїРёСЃСЏРјРё */
+    border: 1px solid #ccc; /* Устанавливаем границу для прямоугольника */
+    border-radius: 10px; /* Задаем радиус скругления углов */
+    padding: 10px; /* Добавляем внутренний отступ */
+    margin-bottom: 20px; /* Добавляем нижний отступ между записями */
     background-color: #e0f2f1;
-    isplay: inline-block; /* Р Р°Р·РјРµС‰Р°РµРј РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє РІ СЃС‚СЂРѕРєСѓ Рё РїРѕРґСЃС‚СЂР°РёРІР°РµРј С€РёСЂРёРЅСѓ РїРѕРґ СЃРѕРґРµСЂР¶РёРјРѕРµ */
+    isplay: inline-block; /* Размещаем прямоугольник в строку и подстраиваем ширину под содержимое */
+}
+img {
+    border-radius: 10px;
+    filter: drop-shadow(0 0 3px #0d4a3f);
+}
+audio {
+    filter: drop-shadow(0 0 3px #58cca9);
 }

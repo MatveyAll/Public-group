@@ -30,7 +30,7 @@ class Post:
 @app.route('/')
 @app.route('/main', methods=['GET', 'POST'])
 def main():
-    if not (session['username'] and session['password']):  # проверка был ли вход у пользователя
+    if not session:  # проверка был ли вход у пользователя
         return redirect(url_for('login'), 301)
     df = pd.read_sql_table('posts', engine)
     posts = df.to_dict('records')
@@ -39,13 +39,16 @@ def main():
         type = request.form['class']
         if type != '':
             posts = list(filter(lambda x: x['type'] == type, posts))
-    return render_template('main.html', posts=posts, type=type)
+    return render_template('main.html', posts=posts, type=type, username=session['username'])
 
 
 @app.route('/moderation', methods=['GET', 'POST'])
 def moderation():
-    if session['username'] != 'admin' and session['password'] != '54321':
-        return 'Вы не являетесь админом и не можете модерировать записи'
+    if session:
+        if session['username'] != 'admin' and session['password'] != '54321':
+            return redirect('/answer/Вы не являетесь админом и не можете модерировать записи/moderation')
+    else:
+        return redirect(url_for('login'), 301)
     df = pd.read_sql_table('posts_proverka', engine)
     posts = df.to_dict('records')
 
@@ -90,7 +93,7 @@ def register():
         df = pd.read_sql_table('users', engine)
 
         if new_user.login in df['login'].values:
-            return 'Пользователь с таким логином уже существует!'
+            return redirect('/answer/Пользователь с таким логином уже существует!/register')
         with engine.connect() as connection:
             connection.execute(
                 sqlalchemy.text(f"INSERT INTO users (login, password, description, list_posts) VALUES ('{new_user.login}', '{new_user.password}', '{new_user.description}', '')"))
@@ -101,6 +104,11 @@ def register():
         return redirect(url_for('main'), 301)
 
     return render_template('register.html')
+
+
+@app.route('/answer/<text>/<fromm>', methods=['GET', 'POST'])
+def answer(text, fromm):
+    return render_template('answer.html', text=text, fromm='/' + fromm)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -114,13 +122,15 @@ def login():
             session['password'] = password
             return redirect(url_for('main'), 301)
         else:
-            return 'Неверный логин или пароль.'
+            return redirect('answer/Неверный логин или пароль./login')
 
     return render_template('login.html')
 
 
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
+    if not session:  # проверка был ли вход у пользователя
+        return redirect(url_for('login'), 301)
     if request.method == 'POST':
         new_post = Post(
             request.form['title'],
@@ -132,7 +142,7 @@ def create_post():
         )
         df = pd.read_sql_table('posts', engine)
         if new_post.title in df['title'].values:
-            return 'Запись с таким названием уже существует'
+            return redirect('/answer/Запись с таким названием уже существует/create_post')
         with engine.connect() as connection:
             connection.execute(
                 sqlalchemy.text(
@@ -140,7 +150,7 @@ def create_post():
                 {"audio": new_post.audio, "photo": new_post.photo}
             )
             connection.commit()
-        return 'Запись создана'
+        return redirect('answer/Запись создана/create_post')
 
     return render_template('post.html')
 

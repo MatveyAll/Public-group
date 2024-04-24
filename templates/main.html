@@ -9,14 +9,25 @@
 <body>
     <div class="scroll">
         <h1>All posts</h1>
+        <form action="/create_post">
+             <button type="submit">Create your own post!</button>
+        </form>
+        {% if username == "admin" %}
+           <form action="/moderation">
+                 <button type="submit">Check posts</button>
+            </form>
+        {% endif %}
         <form action="/main" method="POST">
            <div class="form-group">
                 <label for="classSelect">Category</label>
                 <select class="form-control" id="classSelect" name="class">
                     <option></option>
-                    <option>Pets</option>
+                    <option>Животные</option>
+                    <option>Личные переживания</option>
+                    <option>Спорт</option>
                     <option>Искусство</option>
-                </select>
+                    <option>Семейные разборки</option>
+                 </select>
             </div>
             <button type="submit">Find</button>
         </form>
@@ -28,7 +39,7 @@
                 <p>{{ post.text }}</p>
                 {% if post.audio %}
                     <audio controls>
-                        <source src="data:audio/mpeg;base64,{{ post.audio }}" type="audio/mpeg">
+                        <source src="data:audio/mpeg;base64,{{ post.audio }}" type="audio/mpeg" name="audio">
                         Your browser does not support the audio element.
                     </audio>
                 {% endif %}

@@ -28,10 +28,10 @@ button:hover {
 }
 
 h1 {
-    color: blue; /* Цвет текста */
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #0d4a3f;
 }
 form-group {
-
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
@@ -39,4 +39,17 @@ form-group {
     color: #fff; /* Цвет текста */
     font-size: 16px;
     cursor: pointer;
+}
+.post_container {
+    border: 1px solid #ccc; /* Устанавливаем границу для прямоугольника */
+    border-radius: 10px; /* Задаем радиус скругления углов */
+    padding: 10px; /* Добавляем внутренний отступ */
+    margin: 10px 50px 10px 10px;
+    height: 80%;
+    background-color: #e0f2f1;
+}
+.container {
+    height: 100%;
+    width: 100%;
+    background-color: #a6ecf5;
 }
