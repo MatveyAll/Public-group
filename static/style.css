@@ -1,0 +1,55 @@
+﻿/* Стили для текстовых полей ввода */
+input[type="text"],
+input[type="password"],
+textarea {
+    padding: 10px;
+    border: 2px solid #add8e6; /* Цвет границы */
+    border-radius: 10px; /* Закругление углов */
+    background-color: #f0f8ff; /* Цвет фона */
+    font-size: 16px;
+    width: 30%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Стили для кнопок */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #add8e6; /* Цвет кнопки */
+    color: #fff; /* Цвет текста */
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #87ceeb; /* Измененный цвет кнопки при наведении */
+}
+
+h1 {
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #0d4a3f;
+}
+form-group {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #add8e6; /* Цвет кнопки */
+    color: #fff; /* Цвет текста */
+    font-size: 16px;
+    cursor: pointer;
+}
+.post_container {
+    border: 1px solid #ccc; /* Устанавливаем границу для прямоугольника */
+    border-radius: 10px; /* Задаем радиус скругления углов */
+    padding: 10px; /* Добавляем внутренний отступ */
+    margin: 10px 50px 10px 10px;
+    height: 80%;
+    background-color: #e0f2f1;
+}
+.container {
+    height: 100%;
+    width: 100%;
+    background-color: #a6ecf5;
+}
