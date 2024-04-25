@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
-    <h1>Moderation Page</h1>
+    <h1>Страница модерации</h1>
     <form action="/main">
-        <button type="submit">Return</button>
+        <button type="submit">Назад</button>
     </form>
     <div class="scroll">
         {% for post in posts %}
@@ -39,7 +39,7 @@
                     {% if post.photo %}
                         <input type="hidden" name="photo" value="{{ post.photo }}">
                     {% endif %}
-                    <button type="submit" name="approve_post" value="{{ post.post_id }}">Approve</button>
+                    <button type="submit" name="approve_post" value="{{ post.post_id }}">Одобрить</button>
                 </form>
             </div>
         {% endfor %}

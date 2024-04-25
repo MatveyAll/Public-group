@@ -61,12 +61,26 @@ def moderation():
             post_id = request.form['post_id']
 
             with engine.connect() as connection:
-                if len(request.form) == 7:
+                if len(request.form) == 8:
                     connection.execute(
                         sqlalchemy.text(
                             "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
                         {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
                          "audio": request.form['audio'], "photo": request.form['photo']}
+                    )
+                elif request.form.get('audio'):
+                    connection.execute(
+                        sqlalchemy.text(
+                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                         "audio": request.form['audio'], "photo": ""}
+                    )
+                elif request.form.get('photo'):
+                    connection.execute(
+                        sqlalchemy.text(
+                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                         "audio": "", "photo": request.form['photo']}
                     )
                 else:
                     connection.execute(
@@ -140,17 +154,20 @@ def create_post():
             base64.b64encode(request.files['audio'].read()).decode('utf-8'),
             base64.b64encode(request.files['photo'].read()).decode('utf-8')
         )
-        df = pd.read_sql_table('posts', engine)
-        if new_post.title in df['title'].values:
-            return redirect('/answer/Запись с таким названием уже существует/create_post')
-        with engine.connect() as connection:
-            connection.execute(
-                sqlalchemy.text(
-                    f"INSERT INTO posts_proverka (post_id,title, user_name, type, text, audio, photo) VALUES (NUll, '{new_post.title}', '{new_post.user_name}', '{new_post.type}', '{new_post.text}', :audio, :photo)"),
-                {"audio": new_post.audio, "photo": new_post.photo}
-            )
-            connection.commit()
-        return redirect('answer/Запись создана/create_post')
+        if new_post.title and new_post.type and new_post.text:
+            df = pd.read_sql_table('posts', engine)
+            if new_post.title in df['title'].values:
+                return redirect('/answer/Запись с таким названием уже существует/create_post')
+            with engine.connect() as connection:
+                connection.execute(
+                    sqlalchemy.text(
+                        f"INSERT INTO posts_proverka (post_id,title, user_name, type, text, audio, photo) VALUES (NUll, '{new_post.title}', '{new_post.user_name}', '{new_post.type}', '{new_post.text}', :audio, :photo)"),
+                    {"audio": new_post.audio, "photo": new_post.photo}
+                )
+                connection.commit()
+            return redirect('answer/Запись создана/create_post')
+        else:
+            return redirect('answer/Вам нужно заполнить все поля кроме аудио и фото/create_post')
 
     return render_template('post.html')
 
