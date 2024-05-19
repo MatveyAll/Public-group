@@ -50,7 +50,7 @@ def moderation():
     posts = df.to_dict('records')
 
     if request.method == 'POST':
-        if 'approve_post' in request.form:
+        if 'approve_post' in request.form or 'delete_post' in request.form:
             title = request.form['title']
             user_name = request.form['user_name']
             typed = request.form['type']
@@ -58,20 +58,21 @@ def moderation():
             post_id = request.form['post_id']
 
             with engine.connect() as connection:
-                if len(request.form) == 7:
-                    connection.execute(
-                        sqlalchemy.text(
-                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
-                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
-                         "audio": request.form['audio'], "photo": request.form['photo']}
-                    )
-                else:
-                    connection.execute(
-                        sqlalchemy.text(
-                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
-                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
-                         "audio": "", "photo": ""}
-                    )
+                if 'approve_post' in request.form:
+                    if len(request.form) == 7:
+                        connection.execute(
+                            sqlalchemy.text(
+                                "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                            {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                             "audio": request.form['audio'], "photo": request.form['photo']}
+                        )
+                    else:
+                        connection.execute(
+                            sqlalchemy.text(
+                                "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                            {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                             "audio": "", "photo": ""}
+                        )
                 connection.execute(
                     sqlalchemy.text("DELETE FROM posts_proverka WHERE post_id = :post_id"),
                     {"post_id": post_id}
