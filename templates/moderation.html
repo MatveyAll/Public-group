@@ -40,6 +40,7 @@
                         <input type="hidden" name="photo" value="{{ post.photo }}">
                     {% endif %}
                     <button type="submit" name="approve_post" value="{{ post.post_id }}">Одобрить</button>
+                    <button type="submit" name="delete_post" value="{{ post.post_id }}">Удалить</button>
                 </form>
             </div>
         {% endfor %}

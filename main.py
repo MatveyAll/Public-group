@@ -53,7 +53,7 @@ def moderation():
     posts = df.to_dict('records')
 
     if request.method == 'POST':
-        if 'approve_post' in request.form:
+        if 'approve_post' in request.form or 'delete_post' in request.form:
             title = request.form['title']
             user_name = request.form['user_name']
             typed = request.form['type']
@@ -61,34 +61,35 @@ def moderation():
             post_id = request.form['post_id']
 
             with engine.connect() as connection:
-                if len(request.form) == 8:
-                    connection.execute(
-                        sqlalchemy.text(
-                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
-                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
-                         "audio": request.form['audio'], "photo": request.form['photo']}
-                    )
-                elif request.form.get('audio'):
-                    connection.execute(
-                        sqlalchemy.text(
-                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
-                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
-                         "audio": request.form['audio'], "photo": ""}
-                    )
-                elif request.form.get('photo'):
-                    connection.execute(
-                        sqlalchemy.text(
-                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
-                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
-                         "audio": "", "photo": request.form['photo']}
-                    )
-                else:
-                    connection.execute(
-                        sqlalchemy.text(
-                            "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
-                        {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
-                         "audio": "", "photo": ""}
-                    )
+                if 'approve_post' in request.form:
+                    if len(request.form) == 8:
+                        connection.execute(
+                            sqlalchemy.text(
+                                "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                            {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                             "audio": request.form['audio'], "photo": request.form['photo']}
+                        )
+                    elif request.form.get('audio'):
+                        connection.execute(
+                            sqlalchemy.text(
+                                "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                            {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                             "audio": request.form['audio'], "photo": ""}
+                        )
+                    elif request.form.get('photo'):
+                        connection.execute(
+                            sqlalchemy.text(
+                                "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                            {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                             "audio": "", "photo": request.form['photo']}
+                        )
+                    else:
+                        connection.execute(
+                            sqlalchemy.text(
+                                "INSERT INTO posts (post_id, title, user_name, type, text, audio, photo) VALUES (:post_id, :title, :user_name, :type, :text, :audio, :photo)"),
+                            {"post_id": post_id, "title": title, "user_name": user_name, "type": typed, "text": text,
+                             "audio": "", "photo": ""}
+                        )
                 connection.execute(
                     sqlalchemy.text("DELETE FROM posts_proverka WHERE post_id = :post_id"),
                     {"post_id": post_id}
@@ -143,6 +144,18 @@ def login():
 
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
+    warning_message = ''
+    text = ''
+    name = ''
+
+    def check_for_banned_words(text):
+        with open('banned_words.txt', 'r', encoding='utf-8') as file:
+            banned_words = [word.strip() for word in file.read().split(', ')]
+        for word in banned_words:
+            if word.replace('\n', '') in text:
+                return True
+        return False
+
     if not session:  # проверка был ли вход у пользователя
         return redirect(url_for('login'), 301)
     if request.method == 'POST':
@@ -154,22 +167,28 @@ def create_post():
             base64.b64encode(request.files['audio'].read()).decode('utf-8'),
             base64.b64encode(request.files['photo'].read()).decode('utf-8')
         )
+
         if new_post.title and new_post.type and new_post.text:
-            df = pd.read_sql_table('posts', engine)
-            if new_post.title in df['title'].values:
-                return redirect('/answer/Запись с таким названием уже существует/create_post')
-            with engine.connect() as connection:
-                connection.execute(
-                    sqlalchemy.text(
-                        f"INSERT INTO posts_proverka (post_id,title, user_name, type, text, audio, photo) VALUES (NUll, '{new_post.title}', '{new_post.user_name}', '{new_post.type}', '{new_post.text}', :audio, :photo)"),
-                    {"audio": new_post.audio, "photo": new_post.photo}
-                )
-                connection.commit()
-            return redirect('answer/Запись создана/create_post')
+            name = new_post.title
+            text = new_post.text
+            if not check_for_banned_words(new_post.text):
+                df = pd.read_sql_table('posts', engine)
+                if new_post.title in df['title'].values:
+                    return redirect('/answer/Запись с таким названием уже существует/create_post')
+                with engine.connect() as connection:
+                    connection.execute(
+                        sqlalchemy.text(
+                            f"INSERT INTO posts_proverka (post_id,title, user_name, type, text, audio, photo) VALUES (NUll, '{new_post.title}', '{new_post.user_name}', '{new_post.type}', '{new_post.text}', :audio, :photo)"),
+                        {"audio": new_post.audio, "photo": new_post.photo}
+                    )
+                    connection.commit()
+                return redirect('answer/Запись создана/create_post')
+            else:
+                warning_message = 'Текст содержит недопустимое слово!'
         else:
             return redirect('answer/Вам нужно заполнить все поля кроме аудио и фото/create_post')
 
-    return render_template('post.html')
+    return render_template('post.html', name=name, text=text, warning_message=warning_message)
 
 
 if __name__ == '__main__':
