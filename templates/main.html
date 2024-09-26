@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+<body>
+    <div class="scroll">
+        <h1>All posts</h1>
+        <form action="/create_post">
+             <button type="submit">Create your own post!</button>
+        </form>
+        {% if username == "admin" %}
+           <form action="/moderation">
+                 <button type="submit">Check posts</button>
+            </form>
+        {% endif %}
+        <form action="/main" method="POST">
+           <div class="form-group">
+                <label for="classSelect">Category</label>
+                <select class="form-control" id="classSelect" name="class">
+                    <option></option>
+                    <option>Животные</option>
+                    <option>Личные переживания</option>
+                    <option>Спорт</option>
+                    <option>Искусство</option>
+                    <option>Семейные разборки</option>
+                 </select>
+            </div>
+            <button type="submit">Find</button>
+        </form>
+        {% for post in posts %}
+            <div class="post_container">
+                <h2>{{ post.title }}</h2>
+                <p><strong>User:</strong> {{ post.user_name }}</p>
+                <p><strong>Type:</strong> {{ post.type }}</p>
+                <p>{{ post.text }}</p>
+                {% if post.audio %}
+                    <audio controls>
+                        <source src="data:audio/mpeg;base64,{{ post.audio }}" type="audio/mpeg" name="audio">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% endif %}
+                {% if post.photo %}
+                    <img src="data:image/jpeg;base64,{{ post.photo }}" alt="Photo">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

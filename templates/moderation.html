@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moderation Page</title>
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+<body>
+    <h1>Страница модерации</h1>
+    <form action="/main">
+        <button type="submit">Вернуться</button>
+    </form>
+    <div class="scroll">
+        {% for post in posts %}
+            <div class="post_container">
+                <h2>{{ post.title }}</h2>
+                <p><strong>User:</strong> {{ post.user_name }}</p>
+                <p><strong>Type:</strong> {{ post.type }}</p>
+                <p>{{ post.text }}</p>
+                {% if post.audio %}
+                    <audio controls>
+                        <source src="data:audio/mpeg;base64,{{ post.audio }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% endif %}
+                {% if post.photo %}
+                    <img src="data:image/jpeg;base64,{{ post.photo }}" alt="Photo">
+                {% endif %}
+                <form action="/moderation" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="post_id" value="{{ post.post_id }}">
+                    <input type="hidden" name="title" value="{{ post.title }}">
+                    <input type="hidden" name="user_name" value="{{ post.user_name }}">
+                    <input type="hidden" name="type" value="{{ post.type }}">
+                    <input type="hidden" name="text" value="{{ post.text }}">
+                    {% if post.audio %}
+                        <input type="hidden" name="audio" value="{{ post.audio }}">
+                    {% endif %}
+                    {% if post.photo %}
+                        <input type="hidden" name="photo" value="{{ post.photo }}">
+                    {% endif %}
+                    <button type="submit" name="approve_post" value="{{ post.post_id }}">Одобрить</button>
+                    <button type="submit" name="delete_post" value="{{ post.post_id }}">Удалить</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
